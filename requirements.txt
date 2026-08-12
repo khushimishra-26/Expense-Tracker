@@ -1,0 +1,11 @@
+fastapi
+uvicorn
+sqlalchemy
+pydantic
+streamlit
+pandas
+requests
+aiosqlite
+python-jose
+passlib
+bcrypt

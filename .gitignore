@@ -1,0 +1,5 @@
+.vscode/
+app/__pycache__/
+expenses.db
+.env
+.DS_Store
