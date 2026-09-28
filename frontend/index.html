@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Budget Tracker</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.8.0/fonts/remixicon.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="/static/app.js" defer></script>
+</head>
+<body>
+    <header class="nav">
+        <div class="navElements">
+            <button class="icon-button nav2" id="menuButton" aria-label="Open menu">
+                <i class="ri-menu-line"></i>
+            </button>
+            <div>
+                <h1 class="nav1">Budget Tracker</h1>
+                <p class="header-subtitle">Personal finance dashboard</p>
+            </div>
+        </div>
+        <div class="header-user">
+            <span id="welcome-user">Welcome</span>
+            <button id="logoutButton">Logout</button>
+        </div>
+    </header>
+
+    <div class="app-layout">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-top">
+                <div class="sidebar-title">Workspace</div>
+                <nav>
+                    <a href="#dashboard" class="nav-link active" data-page="dashboard">
+                        <i class="ri-dashboard-line"></i><span>Dashboard</span>
+                    </a>
+                    <a href="#budgets" class="nav-link" data-page="budgets">
+                        <i class="ri-wallet-3-line"></i><span>Budgets</span>
+                    </a>
+                    <a href="#expenses" class="nav-link" data-page="expenses">
+                        <i class="ri-bank-card-line"></i><span>Expenses</span>
+                    </a>
+                    <a href="#reports" class="nav-link" data-page="reports">
+                        <i class="ri-bar-chart-grouped-line"></i><span>Reports</span>
+                    </a>
+                </nav>
+            </div>
+
+            <div class="sidebar-footer">
+                <div class="user-card">
+                    <div class="avatar" id="user-avatar">U</div>
+                    <div class="user-meta">
+                        <strong id="sidebar-user">User</strong>
+                        <span>Personal account</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <div id="global-message" class="message hidden"></div>
+
+            <!-- DASHBOARD -->
+            <section class="page active" id="page-dashboard">
+                <div class="page-heading">
+                    <div>
+                        <h2>Dashboard Overview</h2>
+                        <p>Monitor your spending and budget health.</p>
+                    </div>
+                    <button class="primary-button" id="dashboard-add-expense">
+                        <i class="ri-add-line"></i> Add Expense
+                    </button>
+                </div>
+
+                <section class="summary-cards">
+                    <div class="card">
+                        <div class="card-icon"><i class="ri-wallet-3-line"></i></div>
+                        <h3>Total Budget</h3>
+                        <p id="total-budget">₹0.00</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon"><i class="ri-money-rupee-circle-line"></i></div>
+                        <h3>Total Expenses</h3>
+                        <p id="total-expenses">₹0.00</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon"><i class="ri-pie-chart-line"></i></div>
+                        <h3>Remaining</h3>
+                        <p id="remaining-budget">₹0.00</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon"><i class="ri-file-list-3-line"></i></div>
+                        <h3>Transactions</h3>
+                        <p id="transaction-count">0</p>
+                    </div>
+                </section>
+
+                <div class="dashboard-grid">
+                    <section class="panel chart-panel">
+                        <div class="panel-heading">
+                            <div>
+                                <h3>Expenses by Category</h3>
+                                <p>Where your money is going.</p>
+                            </div>
+                        </div>
+                        <div class="chart-wrap">
+                            <canvas id="categoryChart"></canvas>
+                            <div id="category-empty" class="empty-state hidden">No expense data yet.</div>
+                        </div>
+                    </section>
+
+                    <section class="panel chart-panel">
+                        <div class="panel-heading">
+                            <div>
+                                <h3>Monthly Spending Trend</h3>
+                                <p>Your spending over time.</p>
+                            </div>
+                        </div>
+                        <div class="chart-wrap">
+                            <canvas id="monthlyChart"></canvas>
+                            <div id="monthly-empty" class="empty-state hidden">No expense data yet.</div>
+                        </div>
+                    </section>
+                </div>
+
+                <section class="panel transactions">
+                    <div class="panel-heading">
+                        <div>
+                            <h3>Recent Transactions</h3>
+                            <p>Your latest recorded expenses.</p>
+                        </div>
+                        <button class="text-button" data-page-target="expenses">View all</button>
+                    </div>
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Description</th>
+                                    <th>Category</th>
+                                    <th class="amount-cell">Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody id="recent-transactions-body"></tbody>
+                        </table>
+                        <div id="recent-empty" class="empty-state">No expense records found.</div>
+                    </div>
+                </section>
+            </section>
+
+            <!-- BUDGETS -->
+            <section class="page" id="page-budgets">
+                <div class="page-heading">
+                    <div>
+                        <h2>Budget Management</h2>
+                        <p>Set spending limits and keep an eye on your budget health.</p>
+                    </div>
+                </div>
+
+                <div class="dashboard-grid single-row">
+                    <section class="panel">
+                        <div class="panel-heading">
+                            <div>
+                                <h3>Budget Settings</h3>
+                                <p>These settings are saved in this browser until a budget API is added to FastAPI.</p>
+                            </div>
+                        </div>
+                        <form id="budget-form" class="form-grid">
+                            <label>
+                                Daily Budget (₹)
+                                <input type="number" id="daily-budget-input" min="0" step="100" required>
+                            </label>
+                            <label>
+                                Monthly Budget (₹)
+                                <input type="number" id="monthly-budget-input" min="0" step="1000" required>
+                            </label>
+                            <button class="primary-button" type="submit">Save Budget</button>
+                        </form>
+                    </section>
+                </div>
+
+                <section class="summary-cards budget-cards">
+                    <div class="card">
+                        <h3>Today's Spending</h3>
+                        <p id="budget-today-spending">₹0.00</p>
+                        <div class="progress-bg"><div id="daily-progress" class="progress-fill"></div></div>
+                        <small id="daily-budget-status">₹0 of ₹0</small>
+                    </div>
+                    <div class="card">
+                        <h3>This Month</h3>
+                        <p id="budget-month-spending">₹0.00</p>
+                        <div class="progress-bg"><div id="monthly-progress" class="progress-fill"></div></div>
+                        <small id="monthly-budget-status">₹0 of ₹0</small>
+                    </div>
+                </section>
+            </section>
+
+            <!-- EXPENSES -->
+            <section class="page" id="page-expenses">
+                <div class="page-heading">
+                    <div>
+                        <h2>Manage Expenses</h2>
+                        <p>Add, search, update, and delete your transactions.</p>
+                    </div>
+                </div>
+
+                <div class="expense-layout">
+                    <section class="panel add-expense-panel">
+                        <div class="panel-heading">
+                            <div>
+                                <h3>Add Expense</h3>
+                                <p>Record a new transaction.</p>
+                            </div>
+                        </div>
+                        <form id="expense-form" class="stacked-form">
+                            <label>
+                                Title
+                                <input type="text" id="expense-title" maxlength="200" placeholder="e.g. Groceries" required>
+                            </label>
+                            <label>
+                                Amount (₹)
+                                <input type="number" id="expense-amount" min="0.01" step="0.01" placeholder="e.g. 500" required>
+                            </label>
+                            <label>
+                                Category
+                                <input type="text" id="expense-category" maxlength="50" placeholder="e.g. Food" required>
+                            </label>
+                            <button class="primary-button" type="submit"><i class="ri-save-line"></i> Save Expense</button>
+                        </form>
+                    </section>
+
+                    <section class="panel transactions">
+                        <div class="panel-heading expense-list-heading">
+                            <div>
+                                <h3>Transactions</h3>
+                                <p id="expense-list-count">0 records</p>
+                            </div>
+                            <input class="search-input" id="expense-search" type="search" placeholder="Search title or category...">
+                        </div>
+                        <div class="table-wrap">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Title</th>
+                                        <th>Category</th>
+                                        <th class="amount-cell">Amount</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="expense-table-body"></tbody>
+                            </table>
+                            <div id="expense-empty" class="empty-state">No expense records available.</div>
+                        </div>
+                    </section>
+                </div>
+            </section>
+
+            <!-- REPORTS -->
+            <section class="page" id="page-reports">
+                <div class="page-heading">
+                    <div>
+                        <h2>Reports</h2>
+                        <p>A simple view of your spending patterns.</p>
+                    </div>
+                </div>
+
+                <section class="panel">
+                    <div class="panel-heading">
+                        <div>
+                            <h3>Category Breakdown</h3>
+                            <p>Expense totals grouped by category.</p>
+                        </div>
+                    </div>
+                    <div id="category-report" class="report-grid"></div>
+                    <div id="report-empty" class="empty-state hidden">No expenses available for reporting.</div>
+                </section>
+
+                <section class="panel transactions">
+                    <div class="panel-heading">
+                        <div>
+                            <h3>All Transactions</h3>
+                            <p>Complete expense history for the signed-in user.</p>
+                        </div>
+                    </div>
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Title</th>
+                                    <th>Category</th>
+                                    <th class="amount-cell">Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody id="report-table-body"></tbody>
+                        </table>
+                    </div>
+                </section>
+            </section>
+        </main>
+    </div>
+
+    <!-- Add expense modal: keeps the dashboard quick action useful without adding another page. -->
+    <div class="modal hidden" id="quick-expense-modal" aria-hidden="true">
+        <div class="modal-card">
+            <div class="modal-header">
+                <div>
+                    <h3>Add Expense</h3>
+                    <p>Quickly record a transaction.</p>
+                </div>
+                <button class="icon-button" id="close-modal" aria-label="Close"><i class="ri-close-line"></i></button>
+            </div>
+            <form id="quick-expense-form" class="stacked-form">
+                <label>
+                    Title
+                    <input type="text" id="quick-title" maxlength="200" required>
+                </label>
+                <label>
+                    Amount (₹)
+                    <input type="number" id="quick-amount" min="0.01" step="0.01" required>
+                </label>
+                <label>
+                    Category
+                    <input type="text" id="quick-category" maxlength="50" required>
+                </label>
+                <button class="primary-button" type="submit">Save Expense</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

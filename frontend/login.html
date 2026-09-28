@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Budget Tracker - Login</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.8.0/fonts/remixicon.css" rel="stylesheet">
+    <script src="/static/app.js" defer></script>
+</head>
+<body class="auth-page">
+    <div class="auth-shell">
+        <section class="auth-brand">
+            <div class="brand-mark"><i class="ri-wallet-3-line"></i></div>
+            <h1>Budgeteer</h1>
+            <p>Personal finance and expense monitoring platform.</p>
+        </section>
+
+        <section class="auth-card">
+            <div class="auth-tabs">
+                <button class="auth-tab active" data-auth-tab="login">Login</button>
+                <button class="auth-tab" data-auth-tab="register">Register</button>
+            </div>
+
+            <div id="auth-message" class="message hidden"></div>
+
+            <form id="login-form" class="auth-form">
+                <div>
+                    <h2>Welcome back</h2>
+                    <p>Sign in to view your dashboard.</p>
+                </div>
+                <label>
+                    Username
+                    <input type="text" id="login-username" autocomplete="username" required>
+                </label>
+                <label>
+                    Password
+                    <input type="password" id="login-password" autocomplete="current-password" required>
+                </label>
+                <button class="primary-button wide" type="submit">Sign In</button>
+            </form>
+
+            <form id="register-form" class="auth-form hidden">
+                <div>
+                    <h2>Create account</h2>
+                    <p>Start tracking your expenses.</p>
+                </div>
+                <label>
+                    Username
+                    <input type="text" id="register-username" minlength="3" maxlength="30" autocomplete="username" required>
+                </label>
+                <label>
+                    Email
+                    <input type="email" id="register-email" autocomplete="email" required>
+                </label>
+                <label>
+                    Password
+                    <input type="password" id="register-password" minlength="8" maxlength="72" autocomplete="new-password" required>
+                </label>
+                <label>
+                    Confirm Password
+                    <input type="password" id="register-confirm" minlength="8" maxlength="72" autocomplete="new-password" required>
+                </label>
+                <button class="primary-button wide" type="submit">Create Account</button>
+            </form>
+        </section>
+    </div>
+</body>
+</html>
