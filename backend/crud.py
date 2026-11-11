@@ -1,8 +1,9 @@
 from sqlalchemy.orm import Session
 from sqlalchemy import desc, func
-from app import models, schema, auth
+from backend import models, schema, auth
+from datetime import datetime, timedelta
 from fastapi import HTTPException, Depends
-from app.auth import get_current_user
+from backend.auth import get_current_user
 
 # def create_category(
 #     db: Session,
@@ -83,21 +84,35 @@ def get_expenses(
     db : Session,
     current_user : models.User
 ):
-    return db.query(models.Expense).filter(models.Expense.owner_id==current_user.id).all()
+    return db.query(models.Expense).filter(models.Expense.owner_id==current_user.id).order_by(models.Expense.created_at.desc()).all()
 
 def get_expense(
     db : Session,
     expense_id : int,
     current_user : models.User
 ):
-    return db.query(models.Expense).filter(models.Expense.id==expense_id).first()
+    expense = (
+        db.query(models.Expense)
+        .filter(
+            models.Expense.id == expense_id,
+            models.Expense.owner_id == current_user.id
+        )
+        .first()
+    )
+    if expense is None:
+        raise HTTPException(status_code=404, detail="Expense not found")
+    return expense
 
 def filter_expense(
     db : Session,
     min_amount: float,
     current_user : models.User
 ):
-    return db.query(models.Expense).filter(models.Expense.amount>=min_amount).all()
+    return (
+        db.query(models.Expense)
+        .filter(models.Expense.amount>=min_amount, models.Expense.owner_id == current_user.id)
+        .all()
+    )
 
 def get_expenses_by_date(
     db: Session,
@@ -105,12 +120,17 @@ def get_expenses_by_date(
     start_date,
     end_date
 ):
+    start_datetime = datetime.combine(start_date, datetime.min.time())
+    end_datetime = datetime.combine(
+    end_date + timedelta(days=1),
+    datetime.min.time()
+)
     return (
         db.query(models.Expense)
         .filter(
             models.Expense.owner_id == user_id,
-            models.Expense.created_at >= start_date,
-            models.Expense.created_at <= end_date
+            models.Expense.created_at >= start_datetime,
+            models.Expense.created_at < end_datetime
         )
         .all()
     )
@@ -118,11 +138,13 @@ def get_expenses_by_date(
 def update_expense(
     db : Session,
     expense_id : int,
-    updated_expense : schema.ExpenseUpdate
+    updated_expense : schema.ExpenseUpdate,
+    current_user : models.User
 ):
     expense = (
         db.query(models.Expense)
-        .filter(models.Expense.id==expense_id).first()
+        .filter(models.Expense.id==expense_id, models.Expense.owner_id == current_user.id)
+        .first()
     )
     if expense is None:
         raise HTTPException(
@@ -131,22 +153,28 @@ def update_expense(
         )
     expense.title = updated_expense.title
     expense.amount = updated_expense.amount
+    expense.category = updated_expense.category
     db.commit()
     db.refresh(expense)
     return expense
 
 def delete_expense(
     db : Session,
-    expense_id : int
+    expense_id : int,
+    current_user : models.User
 ):
-    expense = db.query(models.Expense).filter(models.Expense.id==expense_id).first()
+    expense = (
+        db.query(models.Expense).
+        filter(models.Expense.id==expense_id, models.Expense.owner_id == current_user.id).first()
+    )
     if expense is None:
-        return {"error":"Expense not found"}
-    db.remove(expense)
+        raise HTTPException(status_code=404, detail="Expense not found")
+    db.delete(expense)
     db.commit()
-    return {"message": "Deleted"}
+    return None
 
 def create_user(db: Session, user: schema.UserCreate):
+    from sqlalchemy.exc import IntegrityError
     hashed = auth.hash_password(user.password)
     db_user = models.User(
         username=user.username,
@@ -154,7 +182,11 @@ def create_user(db: Session, user: schema.UserCreate):
         hashed_password=hashed
     )
     db.add(db_user)
-    db.commit()
+    try:
+        db.commit()
+    except IntegrityError:
+        db.rollback()
+        raise HTTPException(status_code=400, detail="Username or email already exists")
     db.refresh(db_user)
     return db_user
 

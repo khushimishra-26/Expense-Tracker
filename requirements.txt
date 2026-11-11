@@ -2,10 +2,14 @@ fastapi
 uvicorn
 sqlalchemy
 pydantic
+pydantic[email]
 streamlit
 pandas
 requests
 aiosqlite
 python-jose
 passlib
-bcrypt
+bcrypt==3.2.2
+plotly
+python-dotenv
+alembic
