@@ -33,7 +33,7 @@ if not SECRET_KEY:
     )
 
 ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 30
+ACCESS_TOKEN_EXPIRE_MINUTES = 15
 
 def create_access_token(data: dict):
     to_encode = data.copy()
