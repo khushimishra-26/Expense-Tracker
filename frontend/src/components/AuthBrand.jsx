@@ -6,8 +6,8 @@ export default function AuthBrand() {
     <section className="auth-brand">
       <img className="brand-logo brand-logo-large" src="/logo.svg" alt="Budgeteer" />
       <h1 className="brand-name">Budgeteer</h1>
-      <p className="tagline tagline-main">Serving the nation - From paupers to royalty</p>
-      <p className="tagline">Saves your budget from overspending to maintain your peaceful life</p>
+      <p className="tagline tagline-main">Serving the nation, from paupers to royalty!</p>
+      <p className="tagline">Guarding your budget, slaying overspending, and keeping your finances in check — so you can live happily ever after</p>
       <p className="tagline">Always at your service</p>
     </section>
   );
