@@ -215,3 +215,41 @@ def get_total_spending(
         )
         .scalar()
     )
+
+def get_budgets(db: Session, current_user: models.User):
+    return (
+        db.query(models.Budget)
+        .filter(models.Budget.owner_id == current_user.id)
+        .all()
+    )
+
+def set_budget(db: Session, budget: schema.BudgetSet, current_user: models.User):
+    # One budget per (user, category). category=None is the overall budget.
+    category = budget.category.strip() if budget.category else None
+    db_budget = (
+        db.query(models.Budget)
+        .filter(
+            models.Budget.owner_id == current_user.id,
+            models.Budget.category.is_(None) if category is None else models.Budget.category == category,
+        )
+        .first()
+    )
+    if db_budget is None:
+        db_budget = models.Budget(owner_id=current_user.id, category=category, amount=budget.amount)
+        db.add(db_budget)
+    else:
+        db_budget.amount = budget.amount
+    db.commit()
+    db.refresh(db_budget)
+    return db_budget
+
+def delete_budget(db: Session, budget_id: int, current_user: models.User):
+    db_budget = (
+        db.query(models.Budget)
+        .filter(models.Budget.id == budget_id, models.Budget.owner_id == current_user.id)
+        .first()
+    )
+    if db_budget is None:
+        raise HTTPException(status_code=404, detail="Budget not found")
+    db.delete(db_budget)
+    db.commit()

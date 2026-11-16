@@ -1,0 +1,484 @@
+/* Dusty rose theme */
+:root {
+  --bg: #f8eef0;
+  --sidebar: #6c4a5a;
+  --primary: #a85670;
+  --primary-light: #c06c84;
+  --text: #3a2a30;
+  --muted: #7a6670;
+  --border: #ecdce1;
+  --card: #ffffff;
+  --error: #b3261e;
+  --success: #2f8a5b;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+h1 {
+  margin: 0 0 16px;
+  font-size: 1.6rem;
+}
+
+h2 {
+  margin: 0 0 12px;
+  font-size: 1.1rem;
+}
+
+a {
+  color: var(--primary);
+}
+
+/* ---------- Forms ---------- */
+label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 14px;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+input {
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: inherit;
+}
+
+input:focus {
+  outline: 2px solid var(--primary-light);
+  border-color: transparent;
+}
+
+button {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  background: var(--primary);
+  color: #fff;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #8f475e;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.error {
+  background: #fdecea;
+  color: var(--error);
+  padding: 10px 12px;
+  border-radius: 8px;
+}
+
+.error-text {
+  color: var(--error);
+}
+
+.success {
+  background: #e8f5ee;
+  color: var(--success);
+  padding: 10px 12px;
+  border-radius: 8px;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.center-text {
+  text-align: center;
+  margin-top: 40vh;
+}
+
+/* ---------- Cards ---------- */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+/* The first thing in a card shouldn't add its own top gap */
+.card > :first-child {
+  margin-top: 0;
+}
+
+.form-card form button {
+  width: 100%;
+}
+
+/* ---------- Login / Register ---------- */
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+}
+
+/* Left: project name, logo and taglines */
+.auth-brand {
+  flex: 1 1 45%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 40px;
+  background: var(--sidebar);
+  color: #fff;
+  text-align: center;
+}
+
+.brand-name {
+  margin: 0 0 20px;
+  font-size: 2.4rem;
+}
+
+.tagline {
+  max-width: 34ch;
+  margin: 0 0 10px;
+  line-height: 1.45;
+  opacity: 0.85;
+}
+
+.tagline-main {
+  font-size: 1.2rem;
+  font-weight: 600;
+  opacity: 1;
+}
+
+/* Right: the form */
+.auth-panel {
+  flex: 1 1 55%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 380px;
+  margin-bottom: 0;
+}
+
+.auth-title {
+  margin: 0 0 16px;
+  font-size: 1.4rem;
+}
+
+.auth-card button {
+  width: 100%;
+  margin-top: 4px;
+}
+
+.auth-card .muted {
+  text-align: center;
+  margin-bottom: 0;
+}
+
+/* The round logo (a photo dropped into src/assets also gets cropped to a circle) */
+.brand-logo {
+  display: block;
+  flex-shrink: 0;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.brand-logo-large {
+  width: 128px;
+  height: 128px;
+  margin-bottom: 16px;
+}
+
+.brand-logo-small {
+  width: 40px;
+  height: 40px;
+}
+
+/* ---------- Layout + Sidebar ---------- */
+.layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+.sidebar {
+  width: 220px;
+  flex-shrink: 0;
+  background: var(--sidebar);
+  color: #fff;
+  padding: 24px 16px;
+  display: flex;
+  flex-direction: column;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.logo {
+  margin: 0;
+  font-size: 1.3rem;
+}
+
+.hello {
+  margin: 0 0 24px;
+  opacity: 0.8;
+  font-size: 0.9rem;
+}
+
+.sidebar nav {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.sidebar nav a {
+  color: #fff;
+  text-decoration: none;
+  padding: 10px 12px;
+  border-radius: 8px;
+}
+
+.sidebar nav a:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.sidebar nav a.active {
+  background: var(--primary-light);
+}
+
+.logout {
+  margin-top: auto;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.logout:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.content {
+  flex: 1;
+  padding: 28px;
+  min-width: 0;
+}
+
+/* One shared column: every page's title and cards line up on the same
+   left and right edges, however wide the screen is. */
+.content > * {
+  max-width: 760px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ---------- Category dropdown ---------- */
+.field {
+  margin-bottom: 14px;
+}
+
+.field > label {
+  display: block;
+  margin-bottom: 6px;
+}
+
+.combo {
+  position: relative;
+}
+
+.combo input {
+  width: 100%;
+  padding-right: 38px;
+  background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5l5 5 5-5' fill='none' stroke='%237a6670' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 14px center;
+}
+
+/* The list sits directly under the box, exactly as wide as it, in one flat colour */
+.combo-list {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  z-index: 10;
+  margin: 0;
+  padding: 4px;
+  list-style: none;
+  max-height: 288px;
+  overflow-y: auto;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: 0 6px 16px rgba(58, 42, 48, 0.12);
+}
+
+.combo-list li {
+  padding: 9px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.combo-list li[aria-selected="true"] {
+  background: var(--bg);
+}
+
+/* ---------- Dashboard ---------- */
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.card-header h2 {
+  margin: 0;
+}
+
+.toggle {
+  display: flex;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.toggle button {
+  background: transparent;
+  color: var(--text);
+  border-radius: 0;
+  padding: 6px 12px;
+  font-size: 0.9rem;
+}
+
+.toggle button.active {
+  background: var(--primary);
+  color: #fff;
+}
+
+/* ---------- Budget ---------- */
+.budget-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 6px 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.budget-row:last-child {
+  border-bottom: none;
+}
+
+.budget-info {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.progress {
+  grid-column: 1;
+  height: 8px;
+  background: var(--bg);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progress .bar {
+  height: 100%;
+  background: var(--primary-light);
+}
+
+.progress .bar.over {
+  background: var(--error);
+}
+
+.link-button {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  align-self: center;
+  background: transparent;
+  color: var(--primary);
+  padding: 4px 8px;
+  font-size: 0.9rem;
+}
+
+.link-button:hover {
+  background: var(--bg);
+}
+
+/* ---------- Small screens: sidebar becomes a top bar ---------- */
+@media (max-width: 700px) {
+  .layout {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    padding: 16px;
+  }
+
+  .hello {
+    margin-bottom: 12px;
+  }
+
+  .sidebar nav {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .logout {
+    margin-top: 12px;
+  }
+
+  .content {
+    padding: 16px;
+  }
+}
+
+@media (max-width: 800px) {
+  .auth-page {
+    flex-direction: column;
+  }
+
+  .auth-brand {
+    flex: none;
+    padding: 28px 20px 24px;
+  }
+
+  .brand-logo-large {
+    width: 84px;
+    height: 84px;
+    margin-bottom: 10px;
+  }
+
+  .brand-name {
+    margin-bottom: 12px;
+    font-size: 1.8rem;
+  }
+
+  .tagline-main {
+    font-size: 1.05rem;
+  }
+
+  .auth-panel {
+    flex: none;
+    align-items: flex-start;
+    padding: 20px 16px 32px;
+  }
+}

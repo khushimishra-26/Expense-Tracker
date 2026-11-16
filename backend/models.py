@@ -11,6 +11,7 @@ class User(Base):
     hashed_password = Column(String)
     expenses = relationship("Expense", back_populates="owner")
     refresh_tokens = relationship("RefreshToken", back_populates="user", cascade="all, delete-orphan")
+    budgets = relationship("Budget", back_populates="owner", cascade="all, delete-orphan")
 
 class Expense(Base):
     __tablename__ = "expenses"
@@ -32,3 +33,14 @@ class RefreshToken(Base):
     revoked = Column(Boolean, default=False)
     created_at = Column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))
     user = relationship("User", back_populates="refresh_tokens")
+
+class Budget(Base):
+    __tablename__ = "budgets"
+    __table_args__ = (UniqueConstraint("owner_id", "category", name="uq_budget_owner_category"),)
+
+    id = Column(Integer, primary_key=True, index=True)
+    owner_id = Column(Integer, ForeignKey("users.id"), nullable=False, index=True)
+    # category = None means the overall (total) monthly budget
+    category = Column(String, nullable=True)
+    amount = Column(Numeric(12, 2), nullable=False)
+    owner = relationship("User", back_populates="budgets")
