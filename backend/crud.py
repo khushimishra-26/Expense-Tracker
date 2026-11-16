@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 from sqlalchemy import desc, func
-from backend import models, schema, auth
+import models, schema, auth
 from datetime import datetime, timedelta
 from fastapi import HTTPException
 

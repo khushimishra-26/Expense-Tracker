@@ -1,9 +1,9 @@
 from dotenv import load_dotenv
 load_dotenv()
 from fastapi import FastAPI
-from backend.routers import expenses, users, auth, budgets
-from backend.database import engine
-from backend.models import Base
+from routers import expenses, users, auth, budgets
+from database import engine
+from models import Base
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
