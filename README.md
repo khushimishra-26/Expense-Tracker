@@ -1,4 +1,4 @@
-# 🛡️ Budgeteer — Your Money's Knight in Shining Armour
+# Budgeteer — Your Money's Knight in Shining Armour ✨
 
 **Guarding your budget, slaying overspending, and keeping your finances in check.**
 
