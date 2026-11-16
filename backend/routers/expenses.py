@@ -1,9 +1,9 @@
 from fastapi import APIRouter
 from sqlalchemy.orm import Session
 from fastapi import Depends, status
-from backend.database import get_db
-from backend.auth import get_current_user
-from backend import schema, crud
+from database import get_db
+from auth import get_current_user
+import schema, crud
 from typing import List
 from datetime import date
 

@@ -1,9 +1,9 @@
 from typing import List
 from fastapi import APIRouter, Depends, status
 from sqlalchemy.orm import Session
-from backend import crud, schema
-from backend.auth import get_current_user
-from backend.database import get_db
+import crud, schema
+from auth import get_current_user
+from database import get_db
 
 router = APIRouter(prefix="/budgets", tags=["Budgets"])
 

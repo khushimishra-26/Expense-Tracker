@@ -5,8 +5,8 @@ from typing import Optional
 from sqlalchemy.orm import Session
 from fastapi import Depends, APIRouter, HTTPException, Response, Cookie
 from fastapi.security import OAuth2PasswordRequestForm
-from backend import auth, crud, database, models
-from backend.database import get_db
+import auth, crud, database, models
+from database import get_db
 
 router = APIRouter(prefix="/auth", tags=["Auth"])
 
