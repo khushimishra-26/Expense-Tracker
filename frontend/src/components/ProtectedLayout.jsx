@@ -1,3 +1,4 @@
+
 import { Navigate, Outlet } from "react-router-dom";
 import { useAuth } from "../AuthContext";
 import Sidebar from "./Sidebar";
@@ -12,9 +13,9 @@ export default function ProtectedLayout() {
   }
 
   return (
-    <div className="app-layout">
+    <div className="layout">
       <Sidebar />
-      <main className="main-content">
+      <main className="content">
         <Outlet />
       </main>
     </div>
