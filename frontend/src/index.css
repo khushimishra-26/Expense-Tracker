@@ -1,7 +1,7 @@
 /* Dusty rose theme */
 :root {
   --bg: #f8eef0;
-  --sidebar: #6c4a5a;
+  --sidebar: #603b48; /* same as the logo image's background, so the logo blends in */
   --primary: #a85670;
   --primary-light: #c06c84;
   --text: #3a2a30;
@@ -191,23 +191,22 @@ button:disabled {
   margin-bottom: 0;
 }
 
-/* The round logo (a photo dropped into src/assets also gets cropped to a circle) */
+/* The logo is shown whole (never cropped) at its natural proportions */
 .brand-logo {
   display: block;
   flex-shrink: 0;
-  object-fit: contain;
-  border-radius: 0;
+  max-width: 100%;
+  height: auto;
 }
 
 .brand-logo-large {
-  width: 128px;
-  height: 128px;
-  margin-bottom: 16px;
+  width: 400px;
+  margin-bottom: -40px; /* the image has empty space at the bottom; pull the name up into it */
 }
 
 .brand-logo-small {
-  width: 40px;
-  height: 40px;
+  width: 188px;
+  margin-bottom: -26px;
 }
 
 /* ---------- Layout + Sidebar ---------- */
@@ -228,8 +227,9 @@ button:disabled {
 
 .brand {
   display: flex;
-  align-items: center;
-  gap: 10px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
   margin-bottom: 8px;
 }
 
@@ -433,6 +433,17 @@ button:disabled {
     padding: 16px;
   }
 
+  .brand {
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .brand-logo-small {
+    width: 96px;
+    margin-bottom: 0;
+  }
+
   .hello {
     margin-bottom: 12px;
   }
@@ -462,9 +473,8 @@ button:disabled {
   }
 
   .brand-logo-large {
-    width: 84px;
-    height: 84px;
-    margin-bottom: 10px;
+    width: 240px;
+    margin-bottom: -24px;
   }
 
   .brand-name {
