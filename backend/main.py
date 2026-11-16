@@ -10,8 +10,6 @@ import os
 
 app = FastAPI()
 
-Base.metadata.create_all(bind=engine)
-
 FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:5173")
 
 app.add_middleware(
