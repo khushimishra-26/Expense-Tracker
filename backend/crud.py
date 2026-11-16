@@ -2,8 +2,7 @@ from sqlalchemy.orm import Session
 from sqlalchemy import desc, func
 from backend import models, schema, auth
 from datetime import datetime, timedelta
-from fastapi import HTTPException, Depends
-from backend.auth import get_current_user
+from fastapi import HTTPException
 
 # def create_category(
 #     db: Session,
