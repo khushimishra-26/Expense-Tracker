@@ -5,7 +5,7 @@
 //   scripts can't read it from storage.
 // - The refresh token is an httpOnly cookie set by the backend; JS never sees it.
 
-const API_URL = "http://localhost:8000";
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
 
 let accessToken = null;
 let refreshing = null;
