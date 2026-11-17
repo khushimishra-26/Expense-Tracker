@@ -1,4 +1,4 @@
-import logo from "../assets/logo.png";
+import logo from "frontend/src/assets/logo.png";
 
 // The project name, logo and taglines shown beside the Login and Register forms.
 export default function AuthBrand() {
