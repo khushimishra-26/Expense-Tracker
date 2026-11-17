@@ -1,6 +1,5 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../AuthContext";
-import logo from "../assets/logo.png";
 
 export default function Sidebar() {
   const { user, logout } = useAuth();
@@ -14,7 +13,7 @@ export default function Sidebar() {
   return (
     <aside className="sidebar">
       <div className="brand">
-        <img className="brand-logo brand-logo-small" src={logo} alt="" />
+        <img className="brand-logo brand-logo-small" src="/logo.png" alt="" />
         <h2 className="logo">Budgeteer</h2>
       </div>
       <p className="hello">Hi, {user.username}</p>
