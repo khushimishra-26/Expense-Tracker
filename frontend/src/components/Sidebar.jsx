@@ -13,7 +13,7 @@ export default function Sidebar() {
   return (
     <aside className="sidebar">
       <div className="brand">
-        <img className="brand-logo brand-logo-small" src="/logo.png" alt="" />
+        <img className="brand-logo brand-logo-small" src="frontend/src/assets/logo.png" alt="" />
         <h2 className="logo">Budgeteer</h2>
       </div>
       <p className="hello">Hi, {user.username}</p>
