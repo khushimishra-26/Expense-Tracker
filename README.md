@@ -270,6 +270,4 @@ It combines a modern frontend, RESTful backend architecture, database management
 
 ---
 
-**Budgeteer — Keeping your kingdom rich and your worries poor.** 👑
 
-*Built with ❤️ and a mission to make financial management simpler.*
