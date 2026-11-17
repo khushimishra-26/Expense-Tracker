@@ -270,4 +270,4 @@ It combines a modern frontend, RESTful backend architecture, database management
 
 ---
 
-
+If you found this project useful, consider giving it a star ⭐️
