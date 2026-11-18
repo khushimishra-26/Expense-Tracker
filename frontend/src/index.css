@@ -145,7 +145,7 @@ button:disabled {
 
 .brand-name {
   margin: 0 0 20px;
-  font-size: 2.4rem;
+  font-size: 2.8rem;
 }
 
 .tagline {
@@ -201,7 +201,7 @@ button:disabled {
 
 .brand-logo-large {
   width: 200px;
-  margin-bottom: -40px; /* the image has empty space at the bottom; pull the name up into it */
+  margin-bottom: -30px; /* the image has empty space at the bottom; pull the name up into it */
 }
 
 .brand-logo-small {

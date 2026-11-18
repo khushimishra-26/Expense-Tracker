@@ -6,7 +6,7 @@ export default function AuthBrand() {
     <section className="auth-brand">
       <img className="brand-logo brand-logo-large" src={logo} alt="Budgeteer" />
       <h1 className="brand-name">Budgeteer</h1>
-      <p className="tagline tagline-main">Serving the nation - From paupers to royalty</p>
+      <p className="tagline tagline-main">Your Money's Knight in Shining Armor!</p>
       <p className="tagline">Saves your budget from overspending to maintain your peaceful life</p>
     </section>
   );
