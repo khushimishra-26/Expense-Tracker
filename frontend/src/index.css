@@ -200,7 +200,7 @@ button:disabled {
 }
 
 .brand-logo-large {
-  width: 300px;
+  width: 200px;
   margin-bottom: -20px; /* the image has empty space at the bottom; pull the name up into it */
 }
 
