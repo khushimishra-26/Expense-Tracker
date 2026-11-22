@@ -8,6 +8,8 @@ From everyday expenses to monthly financial goals, Budgeteer makes managing mone
 
 **[🌐 Live Demo](https://expense-tracker-frontend-five-psi.vercel.app/login)** 
 
+[![CI/CD](https://github.com/khushimishra-26/Expense-Tracker/actions/workflows/ci.yml/badge.svg)](https://github.com/khushimishra-26/Expense-Tracker/actions/workflows/ci.yml)
+
 ---
 
 ## 🛠️ Tech Stack
@@ -25,6 +27,8 @@ From everyday expenses to monthly financial goals, Budgeteer makes managing mone
 | Validation | Pydantic |
 | Database Migrations | Alembic |
 | API Communication | REST APIs, Fetch API |
+| Containerisation | Docker, Docker Compose, Nginx |
+| CI/CD | GitHub Actions, GitHub Container Registry |
 | Version Control | Git, GitHub |
 
 ---
@@ -91,6 +95,8 @@ Expense-Tracker/
 │   │   ├── api.js
 │   │   └── utils.js
 │   │
+│   ├── nginx.conf
+│   ├── Dockerfile
 │   └── package.json
 │
 ├── backend/
@@ -107,8 +113,15 @@ Expense-Tracker/
 │   ├── crud.py
 │   ├── auth.py
 │   ├── database.py
-│   └── requirements.txt
+│   ├── requirements.txt
+│   └── Dockerfile
 │
+├── .github/
+│   └── workflows/
+│       └── ci.yml
+│
+├── docker-compose.yml
+├── .env.example
 └── README.md
 ```
 
@@ -149,9 +162,66 @@ Expense-Tracker/
 
 ---
 
-## ⚙️ Getting Started
+## 🐳 Running with Docker
 
-Follow these steps to run Budgeteer locally.
+The quickest way to run the whole app. You only need Docker installed.
+
+```bash
+git clone https://github.com/khushimishra-26/Expense-Tracker.git
+cd Expense-Tracker
+
+cp .env.example .env
+```
+
+Open `.env` and set `SECRET_KEY`. You can generate one with:
+
+```bash
+python -c "import secrets; print(secrets.token_hex(32))"
+```
+
+Then start everything:
+
+```bash
+docker compose up --build
+```
+
+| Service | URL |
+|---|---|
+| Frontend | http://localhost:5173 |
+| Backend API docs | http://localhost:8000/docs |
+
+- The backend container runs `alembic upgrade head` on startup, so the database schema is created automatically.
+- SQLite data is stored in a Docker volume (`db_data`), so it survives container restarts. Run `docker compose down -v` to wipe it.
+- The frontend is built with Vite and served by Nginx. The API URL is set at build time through the `VITE_API_URL` build argument in `docker-compose.yml`.
+
+---
+
+## 🔄 CI/CD Pipeline
+
+The workflow in `.github/workflows/ci.yml` runs on every push and pull request to `main`.
+
+| Job | What it does |
+|---|---|
+| `backend` | Installs dependencies, applies the Alembic migrations to a fresh SQLite database, and checks the FastAPI app imports cleanly |
+| `frontend` | Runs `npm ci` and `npm run build` |
+| `docker` | Builds the backend and frontend images. On pushes to `main`, it also publishes them to GitHub Container Registry |
+
+The `docker` job only starts once `backend` and `frontend` pass, so a broken build never gets published.
+
+Published images:
+
+```text
+ghcr.io/khushimishra-26/expense-tracker-backend:latest
+ghcr.io/khushimishra-26/expense-tracker-frontend:latest
+```
+
+The live demo is deployed separately (frontend on Vercel).
+
+---
+
+## ⚙️ Getting Started (without Docker)
+
+Follow these steps to run Budgeteer locally without Docker.
 
 ### Prerequisites
 
