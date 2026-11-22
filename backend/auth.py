@@ -7,6 +7,7 @@ from jose import jwt, JWTError
 import models, database
 import secrets
 import hashlib
+from sqlalchemy.orm import Session
 
 pwd_context = CryptContext(
     schemes=["bcrypt"],
@@ -45,7 +46,7 @@ def create_access_token(data: dict):
 
 REFRESH_TOKEN_EXPIRE_DAYS = 7
 
-def create_refresh_token(user_id: int, db: database.Session) -> str:
+def create_refresh_token(user_id: int, db: Session) -> str:
     raw_token = secrets.token_urlsafe(32)
     token_hash = hashlib.sha256(raw_token.encode()).hexdigest()
 
