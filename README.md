@@ -169,29 +169,6 @@ docker compose up --build
 
 ---
 
-## 🔄 CI/CD Pipeline
-
-The workflow in `.github/workflows/ci.yml` runs on every push and pull request to `main`.
-
-| Job | What it does |
-|---|---|
-| `backend` | Installs dependencies, applies the Alembic migrations to a fresh SQLite database, and checks the FastAPI app imports cleanly |
-| `frontend` | Runs `npm ci` and `npm run build` |
-| `docker` | Builds the backend and frontend images. On pushes to `main`, it also publishes them to GitHub Container Registry |
-
-The `docker` job only starts once `backend` and `frontend` pass, so a broken build never gets published.
-
-Published images:
-
-```text
-ghcr.io/khushimishra-26/expense-tracker-backend:latest
-ghcr.io/khushimishra-26/expense-tracker-frontend:latest
-```
-
-The live demo is deployed separately (frontend on Vercel).
-
----
-
 ## ⚙️ Getting Started (without Docker)
 
 Follow these steps to run Budgeteer locally without Docker.
