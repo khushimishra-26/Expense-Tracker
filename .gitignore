@@ -7,7 +7,7 @@ routers/__pycache__/
 alembic/versions/__pycache__/
 
 # Environment
-.env
+*.env
 .env.*
 !.env.example
 

@@ -2,13 +2,13 @@ import os
 from logging.config import fileConfig
 
 from dotenv import load_dotenv
+load_dotenv()
+
 from sqlalchemy import create_engine, pool
 from alembic import context
 
 from database import Base
 import models
-
-load_dotenv()
 
 config = context.config
 
@@ -17,10 +17,10 @@ if config.config_file_name is not None:
 
 target_metadata = Base.metadata
 
-DATABASE_URL = os.getenv(
-    "DATABASE_URL",
-    "sqlite:///./expenses.db"
-)
+DATABASE_URL = os.getenv("DATABASE_URL")
+
+if not DATABASE_URL:
+    raise RuntimeError("DATABASE_URL not found in environment")
 
 config.set_main_option(
     "sqlalchemy.url",
