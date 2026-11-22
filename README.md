@@ -8,8 +8,6 @@ From everyday expenses to monthly financial goals, Budgeteer makes managing mone
 
 **[🌐 Live Demo](https://expense-tracker-frontend-five-psi.vercel.app/login)** 
 
-[![CI/CD](https://github.com/khushimishra-26/Expense-Tracker/actions/workflows/ci.yml/badge.svg)](https://github.com/khushimishra-26/Expense-Tracker/actions/workflows/ci.yml)
-
 ---
 
 ## 🛠️ Tech Stack
@@ -41,31 +39,6 @@ Budgeteer follows a client-server architecture.
 - **Backend:** FastAPI exposes REST endpoints for authentication, expenses, and budgets.
 - **Database:** SQLAlchemy manages database operations and relationships between users, expenses, budgets, and refresh tokens.
 - **Authentication:** Short-lived access tokens and rotating refresh tokens maintain authenticated sessions.
-
-```text
-                 USER
-                   |
-                   v
-          REACT FRONTEND (Vite)
-                   |
-          REST API Communication
-                   |
-                   v
-             FASTAPI BACKEND
-                   |
-          +--------+--------+
-          |        |        |
-          v        v        v
-       Users    Expenses  Budgets
-          |        |        |
-          +--------+--------+
-                   |
-                   v
-             SQLAlchemy ORM
-                   |
-                   v
-              DATABASE
-```
 
 ---
 
