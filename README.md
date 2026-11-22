@@ -19,12 +19,14 @@ From everyday expenses to monthly financial goals, Budgeteer makes managing mone
 | Routing | React Router |
 | Data Visualization | Recharts |
 | Backend | Python, FastAPI |
-| Database | SQLite / PostgreSQL (via SQLAlchemy configuration) |
+| Database | PostgreSQL (via SQLAlchemy configuration) |
 | ORM | SQLAlchemy |
 | Authentication | JWT, OAuth2, bcrypt |
 | Validation | Pydantic |
 | Database Migrations | Alembic |
 | API Communication | REST APIs, Fetch API |
+| Containerisation | Docker, Docker Compose, Nginx |
+| CI/CD | GitHub Actions, GitHub Container Registry |
 | Version Control | Git, GitHub |
 
 ---
@@ -37,31 +39,6 @@ Budgeteer follows a client-server architecture.
 - **Backend:** FastAPI exposes REST endpoints for authentication, expenses, and budgets.
 - **Database:** SQLAlchemy manages database operations and relationships between users, expenses, budgets, and refresh tokens.
 - **Authentication:** Short-lived access tokens and rotating refresh tokens maintain authenticated sessions.
-
-```text
-                 USER
-                   |
-                   v
-          REACT FRONTEND (Vite)
-                   |
-          REST API Communication
-                   |
-                   v
-             FASTAPI BACKEND
-                   |
-          +--------+--------+
-          |        |        |
-          v        v        v
-       Users    Expenses  Budgets
-          |        |        |
-          +--------+--------+
-                   |
-                   v
-             SQLAlchemy ORM
-                   |
-                   v
-              DATABASE
-```
 
 ---
 
@@ -91,6 +68,8 @@ Expense-Tracker/
 │   │   ├── api.js
 │   │   └── utils.js
 │   │
+│   ├── nginx.conf
+│   ├── Dockerfile
 │   └── package.json
 │
 ├── backend/
@@ -107,8 +86,15 @@ Expense-Tracker/
 │   ├── crud.py
 │   ├── auth.py
 │   ├── database.py
-│   └── requirements.txt
+│   ├── requirements.txt
+│   └── Dockerfile
 │
+├── .github/
+│   └── workflows/
+│       └── ci.yml
+│
+├── docker-compose.yml
+├── .env.example
 └── README.md
 ```
 
@@ -149,9 +135,43 @@ Expense-Tracker/
 
 ---
 
-## ⚙️ Getting Started
+## 🐳 Running with Docker
 
-Follow these steps to run Budgeteer locally.
+The quickest way to run the whole app. You only need Docker installed.
+
+```bash
+git clone https://github.com/khushimishra-26/Expense-Tracker.git
+cd Expense-Tracker
+
+cp .env.example .env
+```
+
+Open `.env` and set `SECRET_KEY`. You can generate one with:
+
+```bash
+python -c "import secrets; print(secrets.token_hex(32))"
+```
+
+Then start everything:
+
+```bash
+docker compose up --build
+```
+
+| Service | URL |
+|---|---|
+| Frontend | http://localhost:5173 |
+| Backend API docs | http://localhost:8000/docs |
+
+- The backend container runs `alembic upgrade head` on startup, so the database schema is created automatically.
+- SQLite data is stored in a Docker volume (`db_data`), so it survives container restarts. Run `docker compose down -v` to wipe it.
+- The frontend is built with Vite and served by Nginx. The API URL is set at build time through the `VITE_API_URL` build argument in `docker-compose.yml`.
+
+---
+
+## ⚙️ Getting Started (without Docker)
+
+Follow these steps to run Budgeteer locally without Docker.
 
 ### Prerequisites
 

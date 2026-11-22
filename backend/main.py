@@ -10,7 +10,7 @@ import os
 
 app = FastAPI()
 
-FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:5173")
+FRONTEND_URL = os.getenv("FRONTEND_URL")
 
 app.add_middleware(
     CORSMiddleware,
@@ -19,6 +19,12 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+@app.get("/health")
+def health_check():
+    return {
+        "status": "healthy"
+    }
 
 app.include_router(auth.router)
 app.include_router(expenses.router)
