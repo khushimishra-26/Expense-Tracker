@@ -21,7 +21,7 @@ From everyday expenses to monthly financial goals, Budgeteer makes managing mone
 | Routing | React Router |
 | Data Visualization | Recharts |
 | Backend | Python, FastAPI |
-| Database | SQLite / PostgreSQL (via SQLAlchemy configuration) |
+| Database | PostgreSQL (via SQLAlchemy configuration) |
 | ORM | SQLAlchemy |
 | Authentication | JWT, OAuth2, bcrypt |
 | Validation | Pydantic |
