@@ -14,6 +14,7 @@ router = APIRouter(prefix="/auth", tags=["Auth"])
 # Set COOKIE_SECURE=true in production (HTTPS only).
 REFRESH_COOKIE = "refresh_token"
 COOKIE_SECURE = os.getenv("COOKIE_SECURE", "false").lower() == "true"
+COOKIE_SAMESITE = ("none" if COOKIE_SECURE else "lax")
 
 
 def set_refresh_cookie(response: Response, token: str):
@@ -22,7 +23,7 @@ def set_refresh_cookie(response: Response, token: str):
         value=token,
         httponly=True,
         secure=COOKIE_SECURE,
-        samesite="strict",
+        samesite=COOKIE_SAMESITE,
         max_age=auth.REFRESH_TOKEN_EXPIRE_DAYS * 24 * 60 * 60,
         path="/auth",
     )
