@@ -66,7 +66,7 @@ oauth2_scheme = OAuth2PasswordBearer(
 
 def get_current_user(
     token: str = Depends(oauth2_scheme),
-    db: database.Session = Depends(database.get_db)
+    db: Session = Depends(database.get_db)
 ):
     try:
         payload = jwt.decode(
