@@ -8,8 +8,6 @@ From everyday expenses to monthly financial goals, Budgeteer makes managing mone
 
 **[🌐 Live Demo](https://expense-tracker-frontend-five-psi.vercel.app/login)** 
 
-[![CI/CD](https://github.com/khushimishra-26/Expense-Tracker/actions/workflows/ci.yml/badge.svg)](https://github.com/khushimishra-26/Expense-Tracker/actions/workflows/ci.yml)
-
 ---
 
 ## 🛠️ Tech Stack
@@ -41,31 +39,6 @@ Budgeteer follows a client-server architecture.
 - **Backend:** FastAPI exposes REST endpoints for authentication, expenses, and budgets.
 - **Database:** SQLAlchemy manages database operations and relationships between users, expenses, budgets, and refresh tokens.
 - **Authentication:** Short-lived access tokens and rotating refresh tokens maintain authenticated sessions.
-
-```text
-                 USER
-                   |
-                   v
-          REACT FRONTEND (Vite)
-                   |
-          REST API Communication
-                   |
-                   v
-             FASTAPI BACKEND
-                   |
-          +--------+--------+
-          |        |        |
-          v        v        v
-       Users    Expenses  Budgets
-          |        |        |
-          +--------+--------+
-                   |
-                   v
-             SQLAlchemy ORM
-                   |
-                   v
-              DATABASE
-```
 
 ---
 
@@ -193,29 +166,6 @@ docker compose up --build
 - The backend container runs `alembic upgrade head` on startup, so the database schema is created automatically.
 - SQLite data is stored in a Docker volume (`db_data`), so it survives container restarts. Run `docker compose down -v` to wipe it.
 - The frontend is built with Vite and served by Nginx. The API URL is set at build time through the `VITE_API_URL` build argument in `docker-compose.yml`.
-
----
-
-## 🔄 CI/CD Pipeline
-
-The workflow in `.github/workflows/ci.yml` runs on every push and pull request to `main`.
-
-| Job | What it does |
-|---|---|
-| `backend` | Installs dependencies, applies the Alembic migrations to a fresh SQLite database, and checks the FastAPI app imports cleanly |
-| `frontend` | Runs `npm ci` and `npm run build` |
-| `docker` | Builds the backend and frontend images. On pushes to `main`, it also publishes them to GitHub Container Registry |
-
-The `docker` job only starts once `backend` and `frontend` pass, so a broken build never gets published.
-
-Published images:
-
-```text
-ghcr.io/khushimishra-26/expense-tracker-backend:latest
-ghcr.io/khushimishra-26/expense-tracker-frontend:latest
-```
-
-The live demo is deployed separately (frontend on Vercel).
 
 ---
 
